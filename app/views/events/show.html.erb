@@ -1,0 +1,46 @@
+<div class="col-md-6">
+<a href="/events">Events Dashboard</a>
+<h3><%= @event.name %></h3>
+<p>Host: <%= @event.user.first_name.capitalize %> <%= @event.user.last_name.capitalize %></p>
+<p>Date: <%= @event.date %></p>
+<p>Location: <%= @event.city %></p>
+<p>People who are joing the event: <%= @event.users.count %></p>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Location</th>
+			<th>State</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @event.users.each do |user| %>
+		<tr>
+			<td><%= user.first_name.capitalize %> <% user.last_name.capitalize %></td>
+			<td><%= user.city.capitalize %></td>
+			<td><%= user.state.upcase %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+</div>
+<div class="col-md-6">
+	<% if flash[:errors] %>
+	<% flash[:errors].each do |error| %>
+		<p><%= error %></p>
+	<% end %>
+<% end %>
+	<p><h3>Discussion about this event: </h3></p>
+	<% @comments.each do |comment| %>
+	<p><%= @users.find(comment.user_id).first_name.capitalize %> says: <%= comment.content %></p>
+	<p>***************************</p>
+	<% end %>
+
+	<form action="/comments/<%= @event.id %>" method="post">
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+		<p>Add Comment:</p>
+		<p><textarea name="content"></textarea></p>
+		<input type="submit" name="submit" value="Submit Comments">
+	</form>
+</div>

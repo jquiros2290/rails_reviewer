@@ -1,0 +1,115 @@
+<div class="container">
+	<div class="row">
+	<% content_for :title, "Welcome" %>
+		<h1>Welcome</h1>
+		<% if flash[:errors] %>
+			<% flash[:errors].each do |error| %>
+				<p><%= error %></p>
+			<% end %>
+		<% end %>
+		<div class="col-md-6">
+			<h4>Register</h4>
+			<form action="<%= users_path %>" method="post">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+				<table>
+				<tr>
+					<td><label for="first_name">First Name: </label></td>
+					<td><input type="text" name="user_form[first_name]"></td>
+				</tr>
+				<tr>
+					<td><label for="last_name">Last Name: </label></td>
+					<td><input type="text" name="user_form[last_name]"></td>
+				</tr>
+				<tr>
+					<td><label for="email">Email: </label></td>
+					<td><input type="text" name="user_form[email]"></td>
+				</tr>
+				<tr>
+					<td><label for="city">Location: </label></td>
+					<td><input type="text" name="user_form[city]"></td>
+					<td><label for="state">
+						<select name="user_form[state]">
+							<option value="AL">AL</option>
+							<option value="AK">AK</option>
+							<option value="AZ">AZ</option>
+							<option value="AR">AR</option>
+							<option value="CA">CA</option>
+							<option value="CO">CO</option>
+							<option value="CT">CT</option>
+							<option value="DE">DE</option>
+							<option value="DC">DC</option>
+							<option value="FL">FL</option>
+							<option value="GA">GA</option>
+							<option value="HI">HI</option>
+							<option value="ID">ID</option>
+							<option value="IL">IL</option>
+							<option value="IN">IN</option>
+							<option value="IA">IA</option>
+							<option value="KS">KS</option>
+							<option value="KY">KY</option>
+							<option value="LA">LA</option>
+							<option value="ME">ME</option>
+							<option value="MD">MD</option>
+							<option value="MA">MA</option>
+							<option value="MI">MI</option>
+							<option value="MN">MN</option>
+							<option value="MS">MS</option>
+							<option value="MO">MO</option>
+							<option value="MT">MT</option>
+							<option value="NE">NE</option>
+							<option value="NV">NV</option>
+							<option value="NH">NH</option>
+							<option value="NJ">NJ</option>
+							<option value="NM">NM</option>
+							<option value="NY">NY</option>
+							<option value="NC">NC</option>
+							<option value="ND">ND</option>
+							<option value="OH">OH</option>
+							<option value="OK">OK</option>
+							<option value="OR">OR</option>
+							<option value="PA">PA</option>
+							<option value="RI">RI</option>
+							<option value="SC">SC</option>
+							<option value="SD">SD</option>
+							<option value="TN">TN</option>
+							<option value="TX">TX</option>
+							<option value="UT">UT</option>
+							<option value="VT">VT</option>
+							<option value="VA">VA</option>
+							<option value="WA">WA</option>
+							<option value="WV">WV</option>
+							<option value="WI">WI</option>
+							<option value="WY">WY</option>
+						</select>
+					</label></td>
+				</tr>
+				<tr>
+					<td><label for="password">Password: </label></td>
+					<td><input type="password" name="user_form[password]"></td>
+				</tr>
+				<tr><td><label for="password_confirmation">Confirm Password: </label></td>
+					<td><input type="password" name="user_form[password_confirmation]"></td>
+				</tr>
+				</table>
+				<input type="submit" name="submit" value="Register">
+			</form>
+		</div>
+		<div class="col-md-6">
+			<h4>Login</h4>
+			<form action="<%= sessions_path %>" method="post">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+				<table>
+				<tr>
+					<td><label for="email">Email: </label></td>
+					<td><input type="text" name="email"></td>
+				</tr>
+				<tr>
+					<td><label for="last_name">Password: </label></td>
+					<td><input type="password" name="password"></td>
+				</tr>
+				</table>
+				<input type="submit" name="submit" value="Login">
+			</form>
+		</div>
+	</div>
+</div>

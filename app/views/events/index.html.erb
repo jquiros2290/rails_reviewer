@@ -1,0 +1,158 @@
+<h4>Welcome <%= @user.first_name.capitalize %></h4>
+<a href="/users/<%= @user.id %>">Edit My Profile</a>
+
+<p>Here are some of the events at your state:</p>
+<table class="table table-striped">
+	<thead>
+		
+		<tr>
+			<th>Name</th>
+			<th>Date</th>
+			<th>Location</th>
+			<th>Host</th>
+			<th>Action/Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @events.each do |event| %>
+			<% if event.state == @user.state %>
+		<tr>
+			<td><a href="/events/<%= event.id %>"><%= event.name %></a></td>
+			<td><%= event.date %></td>
+			<td><%= event.city %></td>
+			<td><%= event.user.first_name.capitalize %></td>
+			<% if event.user_id == current_user.id %>
+				<td><a href="/events/<%= event.id %>/edit">Edit</a> <a href="/events/<%= event.id %>" data-method="delete">Delete</a></td>
+				<% elsif event.users.include?(current_user) %>
+				<td>Joining <a href="events/<%= event.id %>/unjoin" data-method="patch">Cancel</a></td>
+				<% else %>
+				<td><a href="/events/<%= event.id %>" data-method="patch">Join</a></td>
+			<% end %>
+		</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>
+
+
+
+<br>
+<br>
+<br>
+<br>
+
+
+<p>Here are some of the events in other states:</p>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Date</th>
+			<th>Location</th>
+			<th>State</th>
+			<th>Host</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @events.each do |event| %>
+			<% if event.state != @user.state %>
+		<tr>
+			<td><a href="/events/<%= event.id %>"><%= event.name %></a></td>
+			<td><%= event.date %></td>
+			<td><%= event.city %></td>
+			<td><%= event.state %></td>
+			<td><%= event.user.first_name.capitalize %></td>
+			<% if event.users.include?(current_user) == false %>
+			<td><a href="/events/<%= event.id %>" data-method="patch">Join</a></td>
+			<% else %>
+			<td><a href="events/<%= event.id %>/unjoin" data-method="patch">Cancel</a></td>
+			<% end %>
+		</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>
+<br>
+<h3>Add Event</h3>
+<% if flash[:errors] %>
+	<% flash[:errors].each do |error| %>
+		<p><%= error %></p>
+	<% end %>
+<% end %>
+<form action="<%= events_path %>" method="post">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+				<table>
+				<tr>
+					<td><label for="name">Name: </label></td>
+					<td><input type="text" name="event_form[name]"></td>
+				</tr>
+				<tr>
+					<td><label for="date">Date: </label></td>
+					<td><input type="text" name="event_form[date]" placeholder="YYYY-MM-DD" required 
+pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" 
+title="Enter a date in this format YYYY-MM-DD"/>
+</td>
+				</tr>
+				<tr>
+					<td><label for="city">Location: </label></td>
+					<td><input type="text" name="event_form[city]"></td>
+					<td><label for="state">
+						<select name="event_form[state]">
+							<option value="AL">AL</option>
+							<option value="AK">AK</option>
+							<option value="AZ">AZ</option>
+							<option value="AR">AR</option>
+							<option value="CA">CA</option>
+							<option value="CO">CO</option>
+							<option value="CT">CT</option>
+							<option value="DE">DE</option>
+							<option value="DC">DC</option>
+							<option value="FL">FL</option>
+							<option value="GA">GA</option>
+							<option value="HI">HI</option>
+							<option value="ID">ID</option>
+							<option value="IL">IL</option>
+							<option value="IN">IN</option>
+							<option value="IA">IA</option>
+							<option value="KS">KS</option>
+							<option value="KY">KY</option>
+							<option value="LA">LA</option>
+							<option value="ME">ME</option>
+							<option value="MD">MD</option>
+							<option value="MA">MA</option>
+							<option value="MI">MI</option>
+							<option value="MN">MN</option>
+							<option value="MS">MS</option>
+							<option value="MO">MO</option>
+							<option value="MT">MT</option>
+							<option value="NE">NE</option>
+							<option value="NV">NV</option>
+							<option value="NH">NH</option>
+							<option value="NJ">NJ</option>
+							<option value="NM">NM</option>
+							<option value="NY">NY</option>
+							<option value="NC">NC</option>
+							<option value="ND">ND</option>
+							<option value="OH">OH</option>
+							<option value="OK">OK</option>
+							<option value="OR">OR</option>
+							<option value="PA">PA</option>
+							<option value="RI">RI</option>
+							<option value="SC">SC</option>
+							<option value="SD">SD</option>
+							<option value="TN">TN</option>
+							<option value="TX">TX</option>
+							<option value="UT">UT</option>
+							<option value="VT">VT</option>
+							<option value="VA">VA</option>
+							<option value="WA">WA</option>
+							<option value="WV">WV</option>
+							<option value="WI">WI</option>
+							<option value="WY">WY</option>
+						</select>
+					</label></td>
+				</tr>
+				</table>
+				<input type="submit" name="submit" value="Add Event">
+			</form>
